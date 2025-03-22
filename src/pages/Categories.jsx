@@ -1,5 +1,5 @@
 import React from 'react'
-import CategoryTile from '../components/categoryTIle'
+import CategoryTile from '../components/categoryTile'
 
 const Categories = () => {
   return (
