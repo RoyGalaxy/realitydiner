@@ -3,7 +3,7 @@ import { ShopContext } from '../context/ShopContext'
 import AnimatedContent from './reactbits/AnimatedComponent'
 import { useNavigate } from 'react-router-dom'
 
-const categoryTile = () => {
+const CategoryTiles = () => {
 
   const { categories, getCategoryImage } = useContext(ShopContext)
   const navigate = useNavigate()
@@ -62,4 +62,4 @@ const categoryTile = () => {
   )
 }
 
-export default categoryTile
+export default CategoryTiles

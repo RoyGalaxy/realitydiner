@@ -1,10 +1,10 @@
 import React from 'react'
-import CategoryTile from '../components/categoryTile'
+import CategoryTiles from '../components/CategoryTiles'
 
 const Categories = () => {
   return (
     <div className='py-20 px-4'>
-        <CategoryTile />
+        <CategoryTiles />
     </div>
   )
 }
