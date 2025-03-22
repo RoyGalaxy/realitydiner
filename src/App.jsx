@@ -9,6 +9,7 @@ import ScrollToTop from './components/ScrollToTop'
 import Cart from './pages/Cart'
 import Login from './pages/Login'
 import Checkout from './pages/Checkout'
+import Home from './pages/Home'
 
 const App = () => {
   return (
@@ -16,7 +17,7 @@ const App = () => {
       <NavBar />
       <ScrollToTop />
       <Routes>
-        <Route path='/' element={<p>HOME PAGE</p>} />
+        <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/categories' element={<Categories />} />
         <Route path='/category/:category' element={<CategoryProducts />} />
