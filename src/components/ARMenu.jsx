@@ -2,26 +2,6 @@ import { ShopContext } from '@/context/ShopContext';
 import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
-const menuItems = [
-  { name: "Burgers", count: 6, highlight: true },
-  { name: "Sliders", count: 8 },
-  { name: "Tacos", count: 3 },
-  { name: "Dip Tricks", count: 6 },
-  { name: "Appetizers", count: 4 },
-  { name: "Salads", count: 2 },
-  { name: "Rolls and Wraps", count: 3 },
-  { name: "Pasta", count: 2 },
-  { name: "Pizza", count: 3 },
-  { name: "Desserts", count: 6 },
-  { name: "MilkShake", count: 3 },
-  { name: "Mojito", count: 2 },
-  { name: "Frambay", count: 2 },
-  { name: "Cabonated", count: 3 },
-  { name: "Beverages (Continued)", count: 7 },
-  { name: "Ice Cream", count: 2 },
-  { name: "Coffee and Tea", count: 20 },
-];
-
 const ARMenu = () => {
   const [menuVisible, setMenuVisible] = useState(false);
   const { categorizedProducts } = useContext(ShopContext)

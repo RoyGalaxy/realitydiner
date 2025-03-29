@@ -1,11 +1,14 @@
 import React from 'react'
 import CategoryTiles from '../components/CategoryTiles'
+import Layout from './Layout'
 
 const Categories = () => {
   return (
-    <div className='py-20 px-4'>
+    <Layout>
+      <div className='py-20 px-4'>
         <CategoryTiles />
-    </div>
+      </div>
+    </Layout>
   )
 }
 

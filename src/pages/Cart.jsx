@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ShopContext } from '../context/ShopContext';
 import CartButton from '../components/CartButton';
 import { Link } from 'react-router-dom';
+import Layout from './Layout';
 
 
 const ProductCard = ({ product }) => {
@@ -76,27 +77,29 @@ const Cart = () => {
   }, [cartItems])
 
   return (
-    <div className="relative py-20 px-4 sm:px-6 md:px-10">
-      <div className="flex flex-col gap-2 pb-4">
-        {cartData.map((product) => {
-          const productData = getProductById(product._id);
-          productData.quantity = product.quantity;
-          return (
-            <ProductCard key={product._id} product={productData} />
-          )
-        })}
+    <Layout>
+      <div className="relative py-20 px-4 sm:px-6 md:px-10">
+        <div className="flex flex-col gap-2 pb-4">
+          {cartData.map((product) => {
+            const productData = getProductById(product._id);
+            productData.quantity = product.quantity;
+            return (
+              <ProductCard key={product._id} product={productData} />
+            )
+          })}
+        </div>
+
+        <CartSummary total={total} />
+        
+
+        {/* Fixed Bottom Section */}
+        <Link to="/login" className="fixed bottom-4 left-0 right-0 p-6 flex justify-center">
+          <button className="bg-primary w-full text-white font-bold tracking-wider text-lg px-6 py-4 rounded-lg shadow-md">
+            Checkout
+          </button>
+        </Link>
       </div>
-
-      <CartSummary total={total} />
-      
-
-      {/* Fixed Bottom Section */}
-      <Link to="/login" className="fixed bottom-4 left-0 right-0 p-6 flex justify-center">
-        <button className="bg-primary w-full text-white font-bold tracking-wider text-lg px-6 py-4 rounded-lg shadow-md">
-          Checkout
-        </button>
-      </Link>
-    </div>
+    </Layout>
   );
 }
 
