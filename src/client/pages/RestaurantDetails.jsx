@@ -29,7 +29,7 @@ const RestaurantDetails = () => {
     try {
       const clientData = JSON.parse(Cookies.get('clientData'));
       const userId = clientData ? clientData._id : null;
-      const response = await fetch(`http://localhost:3000/api/restaurants/client/${userId}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/restaurants/client/${userId}`, {
         headers: {
           'Authorization': `Bearer ${Cookies.get('clientToken')}`,
         },
@@ -88,7 +88,7 @@ const RestaurantDetails = () => {
         }
       });
 
-      const response = await fetch('http://localhost:3000/api/restaurants/me', {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/restaurants/me`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${Cookies.get('clientToken')}`,

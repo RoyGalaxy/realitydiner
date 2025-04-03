@@ -14,7 +14,7 @@ const Login = () => {
   const handleLogin = async (otp) => {
     console.log(otp)
     try {
-      const response = await fetch(`http://localhost:3000/api/auth/login`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, {
         method: 'POST',
         body: JSON.stringify({
           phone: mobile,
@@ -58,7 +58,7 @@ const Login = () => {
   const handleNext = async (newMobile) => {
     setMobile(newMobile)
     try {
-      const response = await fetch(`http://localhost:3000/api/auth/register`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/register`, {
         method: 'POST',
         body: JSON.stringify({
           mobile: newMobile

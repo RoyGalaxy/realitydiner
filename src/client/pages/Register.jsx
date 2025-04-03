@@ -30,7 +30,7 @@ const Register = () => {
     e.preventDefault();
     if (isFormValid()) {
       try {
-        const response = await fetch('http://localhost:3000/api/auth/client/register', {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/client/register`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

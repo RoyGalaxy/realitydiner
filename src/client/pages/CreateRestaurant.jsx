@@ -56,7 +56,7 @@ const CreateRestaurant = () => {
       const clientData = JSON.parse(Cookies.get('clientData'));
       const userId = clientData ? clientData._id : null;
       formDataToSend.append('ownerId', userId); // Append ownerId to formDataToSend
-      const response = await fetch(`http://localhost:3000/api/restaurants/create/${userId}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/restaurants/create/${userId}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${Cookies.get('clientToken')}`,
