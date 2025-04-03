@@ -8,8 +8,8 @@ const ModelViewer = ({src}) => {
     <div className="fixed w-screen h-screen top-0 left-0">
       <model-viewer
         // src={src}
-        src='https://realitydiner.onrender.com/model3d/653afcf9-13a2-4e48-84e5-906dd12a2621breakfast.glb'
-        poster="https://realitydiner.onrender.com/image/1QCFCk1SDXlEoHVwIAyHLjscmJ2ngRO2a.jpg"
+        src={`${import.meta.env.VITE_BACKEND_URL}/model3d/653afcf9-13a2-4e48-84e5-906dd12a2621breakfast.glb`}
+        poster={`${import.meta.env.VITE_BACKEND_URL}/image/1QCFCk1SDXlEoHVwIAyHLjscmJ2ngRO2a.jpg`}
         alt="A 3D Astronaut"
         auto-rotate
         camera-controls

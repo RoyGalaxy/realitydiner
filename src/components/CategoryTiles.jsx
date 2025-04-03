@@ -5,8 +5,11 @@ import { useNavigate } from 'react-router-dom'
 
 const CategoryTiles = () => {
 
-  const { categories, getCategoryImage } = useContext(ShopContext)
+  const { categories, getCategoryImage, products } = useContext(ShopContext)
   const navigate = useNavigate()
+
+  if(products && products.length === 0) return <div>No categories found</div>
+  
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -22,12 +25,12 @@ const CategoryTiles = () => {
         threshold={1}
       >
         <div 
-          onClick={() => navigate(`/category/${categories[0]}`)}
+          onClick={() => categories[0] && navigate(`/category/${categories[0]}`)}
           style={{
-            backgroundImage: `url('https://realitydiner.onrender.com${getCategoryImage(categories[0])}')`
+            backgroundImage: `url('${import.meta.env.VITE_BACKEND_URL}${getCategoryImage(categories[0])}')`
           }}
-          className={`bg-cover bg-center bg-slate-300 aspect-square flex items-center justify-center text-white text-center p-6 rounded-lg shadow-lg mb-2`}>
-          <h1 className="text-3xl font-bold">{categories[0]}</h1>
+          className={`bg-cover bg-center bg-slate-300 aspect-square flex items-center justify-center text-white text-center p-6 rounded-lg shadow-lg mb-2 ${categories[0] ? '' : 'animate-pulse'}`}>
+          <h1 className="text-3xl font-bold">{categories[0] || 'Loading...'}</h1>
         </div>
       </AnimatedContent>
 
@@ -49,7 +52,7 @@ const CategoryTiles = () => {
               <div
                 onClick={() => navigate(`/category/${category}`)}
                 style={{
-                  backgroundImage: `url('https://realitydiner.onrender.com${getCategoryImage(category)}')`
+                  backgroundImage: `url('${import.meta.env.VITE_BACKEND_URL}${getCategoryImage(category)}')`
                 }}
                 className="bg-cover bg-center bg-slate-300 aspect-square flex items-center justify-center p-6 text-2xl font-bold tracking-wide text-white rounded-lg shadow-lg">
                 {category}

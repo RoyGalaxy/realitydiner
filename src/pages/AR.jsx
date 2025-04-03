@@ -16,7 +16,7 @@ const AR = () => {
   return (
     <Layout>
       <div className='py-20 px-4 h-screen w-full'>
-        {product && <ModelViewer src={`https://realitydiner.onrender.com${product?.model3d}`} />}
+        {product && <ModelViewer src={`${import.meta.env.VITE_BACKEND_URL}${product?.model3d}`} />}
       </div>
     </Layout>
   )

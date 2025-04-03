@@ -8,16 +8,29 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 const NavBar = () => {
   const location = useLocation()
   const navigate = useNavigate()
-  const { getCartCount } = useContext(ShopContext)
+  const { getCartCount, setRestaurant } = useContext(ShopContext)
+
+  const handleBack = () => {
+    if (location.pathname === '/') {
+      return;
+    } else {
+      navigate(-1)
+    }
+  }
+
+  const handleLogoClick = () => {
+    setRestaurant('');
+    navigate('/');
+  }
 
   return (
     <div className='z-10 fixed flex items-center justify-between px-4 w-full h-14 bg-white-soft shadow-lg'>
-      <div onClick={() => navigate(-1)} className='p-2 bg-white-light rounded-full text-[#111] active:bg-slate-400 active:text-white-light'>
+      <div onClick={handleBack} className='p-2 bg-white-light rounded-full text-[#111] active:bg-slate-400 active:text-white-light'>
         <FaAngleLeft fontSize={20} fontWeight={600} />
       </div>
       {/* Brand Logo or Text */}
       {/* <h1 className='text-xl text-[#111] font-bold tracking-wide'>Black Pepper</h1> */}
-      <div onClick={() => navigate('/categories')}>
+      <div onClick={handleLogoClick}>
         <SplitText
           text="Reality Diner"
           className="text-2xl font-semibold text-center"

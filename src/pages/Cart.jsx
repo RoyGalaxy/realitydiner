@@ -12,7 +12,7 @@ const ProductCard = ({ product }) => {
     <div className="flex items-center justify-between border-b py-6 shadow-md px-2">
       {/* Left Section - Product Info */}
       <div className="flex items-center gap-3">
-        <img src={`https://realitydiner.onrender.com${product.image}`} className='h-12 aspect-square rounded-md' alt="" />
+        <img src={`${import.meta.env.VITE_BACKEND_URL}${product.image}`} className='h-12 aspect-square rounded-md' alt="" />
         <div>
           <h3 className="font-semibold line-clamp-2">{product.name}</h3>
           <p className="text-gray-500">{currency} {product.price}</p>

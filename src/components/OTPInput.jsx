@@ -32,7 +32,7 @@ const OTPInput = ({onVerify}) => {
         </InputOTP>
 
         <button
-        onClick={handleVerify}
+        onClick={() => handleVerify(otp)}
         className="bg-primary text-white py-3 text-lg font-bold rounded-md mt-4"
       >
         Login

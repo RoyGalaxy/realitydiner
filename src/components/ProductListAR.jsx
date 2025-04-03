@@ -56,7 +56,7 @@ const ProductListAR = () => {
   const { id } = useParams()
   const {getProductById, getProductsByCategory } = useContext(ShopContext)
   const product = id ? useMemo(() => getProductById(id)) : undefined
-  const products = product?.catagory ? useMemo(() => getProductsByCategory(product?.catagory)) : undefined
+  const products = product?.category ? useMemo(() => getProductsByCategory(product?.category)) : undefined
 
   return (
     <div className="overflow-x-auto whitespace-nowrap px-4 py-2 fixed left-0 bottom-6 w-full">

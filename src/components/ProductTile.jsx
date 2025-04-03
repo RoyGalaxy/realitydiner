@@ -29,7 +29,7 @@ const ProductTile = () => {
         <div
           onClick={() => navigate(`/product/${products[0]._id}`)}
           style={{
-            backgroundImage: products[0] ? `url('https://realitydiner.onrender.com${products[0]?.image}')` : ''
+            backgroundImage: products[0] ? `url('${import.meta.env.VITE_BACKEND_URL}${products[0]?.image}')` : ''
           }}
           className={`bg-cover bg-center bg-slate-300 aspect-square flex items-end text-white text-center rounded-lg shadow-lg mb-2`}
         >
@@ -62,7 +62,7 @@ const ProductTile = () => {
               <div
                 onClick={() => navigate(`/product/${product?._id}`)}
                 style={{
-                  backgroundImage: `url('https://realitydiner.onrender.com${product?.image}')`
+                  backgroundImage: `url('${import.meta.env.VITE_BACKEND_URL}${product?.image}')`
                 }}
                 className={`bg-cover bg-center bg-slate-300 aspect-square flex items-end text-white text-center rounded-lg shadow-lg mb-2`}
               >

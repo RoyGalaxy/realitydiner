@@ -10,17 +10,35 @@ export const ShopContextProvider = ({ children }) => {
   const deliveryFee = 10;
   const [cartItems, setCartItems] = useState([])
   const [categorizedProducts, setCategorizedProducts] = useState({});
+  const [restaurantId, setRestaurantId] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Fetch Data from the server
   const fetchProducts = async () => {
-    const { data } = await axios.get("https://realitydiner.onrender.com/api/products");
+    if(!restaurantId) return;
+    const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/products/restaurant/${restaurantId}`);
+    setIsLoading(!isLoading);
     return data;
   };
 
-  const { data: products, isLoading, error } = useQuery({
-    queryKey: ["products"],
+  
+  const { data: products } = useQuery({
+    queryKey: ["products", restaurantId],
     queryFn: fetchProducts,
-  });
+    enabled: !!restaurantId, // Prevent fetching if restaurantId is falsy
+});
+
+  useEffect(() => {
+    setIsLoading(true);
+    setCategorizedProducts({});
+    setCartItems([]);
+    
+  }, [restaurantId]);
+
+  const setRestaurant = (id) => {
+    setRestaurantId(id);
+  }
 
   // Group products by category after fetch
   const groupByCategory = (products) => {
@@ -28,7 +46,7 @@ export const ShopContextProvider = ({ children }) => {
     const categoryMap = {};
 
     products.forEach((product) => {
-      const category = product.catagory || "Uncategorized";
+      const category = product.category || "Uncategorized";
       if (!categoryMap[category]) {
         categoryMap[category] = [];
       }
@@ -98,6 +116,7 @@ export const ShopContextProvider = ({ children }) => {
         return
       }
     }
+    return totalAmount;
   }
 
   useEffect(() => {
@@ -119,6 +138,8 @@ export const ShopContextProvider = ({ children }) => {
     getCategoryImage,
     getProductsByCategory,
     getProductById,
+    restaurantId,
+    setRestaurant,
   }
   return (
     <ShopContext.Provider value={value}>

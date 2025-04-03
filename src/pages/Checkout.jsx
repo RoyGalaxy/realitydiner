@@ -1,9 +1,14 @@
 import PaymentButton from "@/components/PaymentButton";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import Cookies from "js-cookie";
+import { toast } from "react-hot-toast";
 import Layout from './Layout';
+import { ShopContext } from "@/context/ShopContext";
+
 
 const Checkout = () => {
+  const { cartItems, getProductById, getCartAmount, deliveryFee, restaurantId } = useContext(ShopContext);
+  const [isLoading, setIsLoading] = useState(false);
   const [address, setAddress] = useState({
     addressLine1: "",
     addressLine2: "",
@@ -51,6 +56,51 @@ const Checkout = () => {
     setAddress({ ...address, [e.target.name]: e.target.value });
   };
 
+
+  const handleCheckout = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const userData = JSON.parse(Cookies.get('userData'));
+
+    try {   
+      const items = [];
+      for(const key in cartItems){
+        const product = getProductById(key);
+        items.push({
+          itemId: product._id,
+          name: product.name,
+          price: product.price,
+          quantity: cartItems[key]
+        })
+      }
+
+      const response = await fetch('http://localhost:3000/api/orders/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${Cookies.get('clientToken')}`,
+        },
+        body: JSON.stringify({
+            userId: userData._id,
+            items,
+            amount: getCartAmount() + deliveryFee,
+            address: address,
+            restaurantId
+        }),
+      });
+
+      const session = await response.json();
+      window.location = session.session_url;
+
+    } catch (error) {
+      console.error('Error during checkout:', error);
+      toast.error('Failed to process payment. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Layout>
       <div className="py-20 px-6">
@@ -69,7 +119,7 @@ const Checkout = () => {
           {/* Manual Location Entry */}
           <h3 className="text-center font-semibold mb-6">Enter Location Manually</h3>
 
-          <form className="space-y-3">
+          <form className="space-y-3" onSubmit={handleCheckout}>
             <div>
               <label className="text-sm font-medium">ADDRESS LINE 1</label>
               <input

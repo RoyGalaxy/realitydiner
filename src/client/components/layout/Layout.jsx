@@ -1,11 +1,38 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import Sidebar from './Sidebar';
+import Cookies from 'js-cookie';
+import { ShopContext } from '@/context/ShopContext';
 
 const Layout = ({ children }) => {
+
+  const { restaurantId, setRestaurant, isLoading } = useContext(ShopContext);
+
+  const fetchRestaurant = async (clientId, clientToken) => {
+    console.log(isLoading);
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/restaurants/client/${clientId}`, {
+      headers: {
+        'Authorization': `Bearer ${clientToken}`
+      }
+    });
+    const data = await response.json();
+    setRestaurant(data._id);
+  }
+
+  useEffect(() => {
+    if(!restaurantId) {
+      const clientData = JSON.parse(Cookies.get('clientData'));
+      const clientToken = Cookies.get('clientToken');
+      fetchRestaurant(clientData._id, clientToken);
+      console.log(isLoading);
+    }
+  }, [])
+
   return (
-    <div className="admin-layout">
-      <aside className="sidebar">Sidebar</aside>
-      <header className="header">Header</header>
-      <main className="content">{children}</main>
+    <div className="flex">
+      <Sidebar />
+      <main className="flex-1 p-6 ml-16">
+        {children}
+      </main>
     </div>
   );
 };
