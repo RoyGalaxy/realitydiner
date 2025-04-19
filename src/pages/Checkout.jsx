@@ -67,6 +67,7 @@ const Checkout = () => {
       const items = [];
       for(const key in cartItems){
         const product = getProductById(key);
+        console.log(product)
         items.push({
           itemId: product._id,
           name: product.name,
@@ -79,18 +80,18 @@ const Checkout = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${Cookies.get('clientToken')}`,
+          'Authorization': `Bearer ${Cookies.get('userToken')}`,
         },
         body: JSON.stringify({
             userId: userData._id,
             items,
             amount: getCartAmount() + deliveryFee,
             address: address,
-            restaurantId
+            restaurantId,
         }),
       });
 
-      const session = await response.json();
+      const session = await response.json();    
       window.location = session.session_url;
 
     } catch (error) {

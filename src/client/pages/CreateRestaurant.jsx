@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import Cookies from 'js-cookie';
@@ -8,16 +8,67 @@ const CreateRestaurant = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    ownerId: '', // Added ownerId
+    ownerId: '',
     name: '',
     arabicName: '',
     address: '',
     phone: '',
-    email: '', // Added email
-    openingTime: '', // Added openingTime
-    closingTime: '', // Added closingTime
-    logoUrl: null, // Changed logo to logoUrl
+    email: '',
+    openingTime: '',
+    closingTime: '',
+    logoUrl: null,
   });
+  const [isAllowed, setIsAllowed] = useState(null);
+  const [checking, setChecking] = useState(true);
+
+  useEffect(() => {
+    const checkOwnerStatus = async () => {
+      try {
+        const clientData = Cookies.get('clientData');
+        if (!clientData) {
+          setIsAllowed(false);
+          setChecking(false);
+          return;
+        }
+
+        const parsedClientData = JSON.parse(clientData);
+        const userId = parsedClientData?._id;
+        
+        if (!userId) {
+          setIsAllowed(false);
+          setChecking(false);
+          return;
+        }
+
+        const token = Cookies.get('clientToken');
+        if (!token) {
+          setIsAllowed(false);
+          setChecking(false);
+          return;
+        }
+
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/find/${userId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch user data');
+        }
+
+        const data = await response.json();
+        setIsAllowed(data.role === 'restaurant_owner' && data.isVerified === true);
+      } catch (error) {
+        console.error('Error checking owner status:', error);
+        setIsAllowed(false);
+      } finally {
+        setChecking(false);
+      }
+    };
+
+    checkOwnerStatus();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,10 +80,12 @@ const CreateRestaurant = () => {
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: files[0]
-    }));
+    if (files && files[0]) {
+      setFormData(prev => ({
+        ...prev,
+        [name]: files[0]
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -40,26 +93,38 @@ const CreateRestaurant = () => {
     setIsLoading(true);
 
     try {
-      const formDataToSend = new FormData();
+      const clientData = Cookies.get('clientData');
+      if (!clientData) {
+        throw new Error('No client data found');
+      }
+
+      const parsedClientData = JSON.parse(clientData);
+      const userId = parsedClientData?._id;
       
-      // Append all form fields
+      if (!userId) {
+        throw new Error('No user ID found');
+      }
+
+      const token = Cookies.get('clientToken');
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+
+      const formDataToSend = new FormData();
       Object.keys(formData).forEach(key => {
-        if (key === 'logoUrl') { // Updated to logoUrl
-          if (formData[key]) {
-            formDataToSend.append(key, formData[key]);
-          }
-        } else {
+        if (key === 'logoUrl' && formData[key]) {
+          formDataToSend.append(key, formData[key]);
+        } else if (key !== 'logoUrl') {
           formDataToSend.append(key, formData[key]);
         }
       });
 
-      const clientData = JSON.parse(Cookies.get('clientData'));
-      const userId = clientData ? clientData._id : null;
-      formDataToSend.append('ownerId', userId); // Append ownerId to formDataToSend
+      formDataToSend.append('ownerId', userId);
+
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/restaurants/create/${userId}`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${Cookies.get('clientToken')}`,
+          'Authorization': `Bearer ${token}`,
         },
         body: formDataToSend,
         credentials: 'include',
@@ -67,20 +132,47 @@ const CreateRestaurant = () => {
 
       const data = await response.json();
 
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to create restaurant');
+      }
+
       if (data.success) {
+        Cookies.set('restaurantId', data.restaurantId);
         toast.success('Restaurant created successfully!');
-        Cookies.set('restaurantId', data.restaurantId); // Save restaurantId to cookie
         navigate('/client/restaurant-details');
       } else {
-        toast.error(data.message || 'Failed to create restaurant. Please try again.');
+        throw new Error(data.message || 'Failed to create restaurant');
       }
     } catch (error) {
       console.error('Error creating restaurant:', error);
-      toast.error('Failed to create restaurant. Please try again.');
+      toast.error(error.message || 'Failed to create restaurant. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
+
+  if (checking) {
+    return (
+      <Layout>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (!isAllowed) {
+    return (
+      <Layout>
+        <div className="p-6">
+          <div className="bg-white p-8 rounded-lg shadow-lg text-center">
+            <h2 className="text-2xl font-bold mb-4 text-red-600">Not Allowed</h2>
+            <p className="text-gray-600 mb-6">Only accepted restaurant owners can create a restaurant. Please wait for your account to be verified or contact support.</p>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -141,16 +233,13 @@ const CreateRestaurant = () => {
             <div>
               <label className="block text-sm font-medium text-gray-700">Address:</label>
               <textarea
-                type="text"
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
                 required
                 className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm"
-              >
-              </textarea>
+              />
             </div>
-
             <div></div>
             <div>
               <label className="block text-sm font-medium text-gray-700">Opening Time:</label>
@@ -174,7 +263,6 @@ const CreateRestaurant = () => {
                 className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm"
               />
             </div>
-            
           </div>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -182,7 +270,7 @@ const CreateRestaurant = () => {
               <label className="block text-sm font-medium text-gray-700">Logo:</label>
               <input
                 type="file"
-                name="logoUrl" // Updated to logoUrl
+                name="logoUrl"
                 onChange={handleFileChange}
                 accept="image/*"
                 className="mt-1 block w-full text-sm text-gray-500
@@ -219,4 +307,4 @@ const CreateRestaurant = () => {
   );
 };
 
-export default CreateRestaurant; 
+export default CreateRestaurant;
