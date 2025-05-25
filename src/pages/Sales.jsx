@@ -72,16 +72,16 @@ const Sales = () => {
           <h2 className="text-4xl font-bold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
             Key Features
           </h2>
-          <AnimatedContent
-            distance={50}
-            reverse={false}
-            config={{ tension: 100, friction: 20 }}
-            initialOpacity={0.2}
-            animateOpacity
-            scale={0.8}
-            threshold={0.8}
-          >
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
+            <AnimatedContent
+              distance={50}
+              reverse={false}
+              config={{ tension: 100, friction: 20 }}
+              initialOpacity={0.2}
+              animateOpacity
+              scale={0.8}
+              threshold={0.8}
+            >
               <div className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-2xl text-center group hover:scale-105 transition-all duration-300 border border-gray-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-600/10">
                 <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:shadow-lg group-hover:shadow-blue-600/20 transform group-hover:-translate-y-1 transition-all duration-300">
                   <FaMobileAlt className="text-3xl text-white/90" />
@@ -89,7 +89,17 @@ const Sales = () => {
                 <h3 className="text-xl font-semibold mb-3 text-blue-400">No App Required</h3>
                 <p className="text-gray-400 text-sm">Access instantly through your web browser</p>
               </div>
+            </AnimatedContent>
 
+            <AnimatedContent
+              distance={50}
+              reverse={false}
+              config={{ tension: 100, friction: 20 }}
+              initialOpacity={0.2}
+              animateOpacity
+              scale={0.8}
+              threshold={0.8}
+            >
               <div className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-2xl text-center group hover:scale-105 transition-all duration-300 border border-gray-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-600/10">
                 <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:shadow-lg group-hover:shadow-blue-600/20 transform group-hover:-translate-y-1 transition-all duration-300">
                   <FaCube className="text-3xl text-white/90" />
@@ -97,7 +107,16 @@ const Sales = () => {
                 <h3 className="text-xl font-semibold mb-3 text-blue-400">Realistic 3D Dishes</h3>
                 <p className="text-gray-400 text-sm">High-quality models with accurate details</p>
               </div>
-
+            </AnimatedContent>
+            <AnimatedContent
+              distance={50}
+              reverse={false}
+              config={{ tension: 100, friction: 20 }}
+              initialOpacity={0.2}
+              animateOpacity
+              scale={0.8}
+              threshold={0.8}
+            >
               <div className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-2xl text-center group hover:scale-105 transition-all duration-300 border border-gray-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-600/10">
                 <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:shadow-lg group-hover:shadow-blue-600/20 transform group-hover:-translate-y-1 transition-all duration-300">
                   <FaCamera className="text-3xl text-white/90" />
@@ -105,7 +124,16 @@ const Sales = () => {
                 <h3 className="text-xl font-semibold mb-3 text-blue-400">Instant AR Preview</h3>
                 <p className="text-gray-400 text-sm">See dishes on your table in real-time</p>
               </div>
-
+            </AnimatedContent>
+            <AnimatedContent
+              distance={50}
+              reverse={false}
+              config={{ tension: 100, friction: 20 }}
+              initialOpacity={0.2}
+              animateOpacity
+              scale={0.8}
+              threshold={0.8}
+            >
               <div className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-2xl text-center group hover:scale-105 transition-all duration-300 border border-gray-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-600/10">
                 <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:shadow-lg group-hover:shadow-blue-600/20 transform group-hover:-translate-y-1 transition-all duration-300">
                   <FaUsers className="text-3xl text-white/90" />
@@ -113,7 +141,16 @@ const Sales = () => {
                 <h3 className="text-xl font-semibold mb-3 text-blue-400">Better Confidence</h3>
                 <p className="text-gray-400 text-sm">Customers know exactly what to expect</p>
               </div>
-
+            </AnimatedContent>
+            <AnimatedContent
+              distance={50}
+              reverse={false}
+              config={{ tension: 100, friction: 20 }}
+              initialOpacity={0.2}
+              animateOpacity
+              scale={0.8}
+              threshold={0.8}
+            >
               <div className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-2xl text-center group hover:scale-105 transition-all duration-300 border border-gray-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-600/10">
                 <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:shadow-lg group-hover:shadow-blue-600/20 transform group-hover:-translate-y-1 transition-all duration-300">
                   <FaChartLine className="text-3xl text-white/90" />
@@ -121,8 +158,8 @@ const Sales = () => {
                 <h3 className="text-xl font-semibold mb-3 text-blue-400">Boost Sales</h3>
                 <p className="text-gray-400 text-sm">Increase orders with visual appeal</p>
               </div>
-            </div>
-          </AnimatedContent>
+            </AnimatedContent>
+          </div>
         </div>
       </section>
 
