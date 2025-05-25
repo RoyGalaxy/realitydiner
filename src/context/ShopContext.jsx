@@ -10,7 +10,7 @@ export const ShopContextProvider = ({ children }) => {
   const deliveryFee = 10;
   const [cartItems, setCartItems] = useState([])
   const [categorizedProducts, setCategorizedProducts] = useState({});
-  const [restaurantId, setRestaurantId] = useState('');
+  const [restaurantId, setRestaurantId] = useState(sessionStorage.getItem("restaurantId") || '');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -38,6 +38,7 @@ export const ShopContextProvider = ({ children }) => {
 
   const setRestaurant = (id) => {
     setRestaurantId(id);
+    sessionStorage.setItem("restaurantId", id);
   }
 
   // Group products by category after fetch

@@ -10,7 +10,7 @@ const Layout = ({children}) => {
 
   useEffect(() => {
     if(!restaurantId) {
-      navigate('/')
+      navigate('/home')
     }
   }, [restaurantId])
 

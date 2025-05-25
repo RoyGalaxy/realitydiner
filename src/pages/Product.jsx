@@ -15,16 +15,16 @@ const Product = () => {
 
   return (
     <Layout>
-      <div className='py-20 px-4'>
+      <div className='py-20 px-4 grid md:grid-cols-2'>
         {/* Product Image */}
         <AnimatedContent
           distance={50}
           reverse={false}
-          config={{ tension: 80, friction: 20 }}
+          config={{ tension: 120, friction: 20 }}
           initialOpacity={0.2}
           animateOpacity
           scale={0.8}
-          threshold={1}
+          threshold={0.5}
         >
           {/* AR Button */}
           <button
@@ -38,7 +38,7 @@ const Product = () => {
           <img src={product && `${import.meta.env.VITE_BACKEND_URL}${product?.image}`} className='w-full aspect-square rounded-xl shadow-lg bg-slate-300 mb-8' alt="" />
         </AnimatedContent>
         {/* Product Info */}
-        <div className='px-3'>
+        <div className='px-3 md:p-12'>
           <h1 className='text-xl font-bold text-ellipsis line-clamp-2 mb-3'>{product?.name}</h1>
           <p className='text-[#111] text-md font-semibold mb-4'>{currency} {product?.price || '0'}</p>
           <CartButton itemId={id} />

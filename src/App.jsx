@@ -4,13 +4,16 @@ import { Toaster } from 'react-hot-toast'
 import Categories from './pages/Categories'
 import CategoryProducts from './pages/CategoryProducts'
 
+import ScrollToTop from './components/ScrollToTop'
+import ProtectedRoute from './client/components/ProtectedRoute'
+
 import Product from './pages/Product'
 import AR from './pages/AR'
-import ScrollToTop from './components/ScrollToTop'
 import Cart from './pages/Cart'
 import Login from './pages/Login'
 import Checkout from './pages/Checkout'
 import Home from './pages/Home'
+import Sales from './pages/Sales'
 
 import Orders from './client/pages/Orders'
 import Products from './client/pages/Products'
@@ -22,7 +25,6 @@ import Menu from './client/pages/Menu'
 import RestaurantDetails from './client/pages/RestaurantDetails'
 import Profile from './client/pages/Profile'
 import EditProduct from './client/pages/EditProduct'
-import ProtectedRoute from './client/components/ProtectedRoute'
 import CreateRestaurant from './client/pages/CreateRestaurant'
 
 const App = () => {
@@ -32,7 +34,7 @@ const App = () => {
       <Toaster position="top-center" />
       <Routes>
         {/* Customer Pages */}
-        <Route path='/' element={<Home />} />
+        <Route path='/home' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/categories' element={<Categories />} />
         <Route path='/category/:category' element={<CategoryProducts />} />
@@ -41,6 +43,7 @@ const App = () => {
         <Route path='/cart' element={<Cart />} />
         <Route path='/checkout' element={<Checkout />} />
         <Route path='/payment' element={<>Hello</>} />
+        <Route path='/' element={<Sales />} />
 
         {/* Client Pages */}
         <Route path='/client/login' element={<ClientLogin />} />
